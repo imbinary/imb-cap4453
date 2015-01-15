@@ -46,4 +46,4 @@ for i in range(mr, 256-mr):
 for i in range(256):
     for j in range(256):
         ival[i][j] = (ival[i][j] / maxival) * 255
-        print ival[i][j]
+        # print ival[i][j]
