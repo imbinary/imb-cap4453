@@ -20,7 +20,7 @@ ap.add_argument("-t", "--threshold", required=True, help="threshold")
 ap.add_argument("-o", "--output", required=False, help="Path to the output image")
 args = vars(ap.parse_args())
 fp1 = open(args["input1"], "r")
-# fp2 = open(args["input2"], "r")
+fp2 = open(args["output"], "w")
 # fp3 = open(args["output"], "w")
 
 for i in range(256):
@@ -32,8 +32,8 @@ for i in range(mr, 256-mr):
     for j in range(mr, 256-mr):
         sum1 = 0
         sum2 = 0
-        for p in range(-mr, mr):
-            for q in range(-mr, mr):
+        for p in range(-mr, mr+1):
+            for q in range(-mr, mr+1):
                 sum1 += pic[i+p][j+q] * maskx[p+mr][q+mr]
                 sum2 += pic[i+p][j+q] * masky[p+mr][q+mr]
         outpicx[i][j] = sum1
@@ -42,8 +42,9 @@ for i in range(mr, 256-mr):
         if ival[i][j] > maxival:
             maxival = ival[i][j]
 
-
+fp2.write('P5\n256 256\n255\n')  # pgm header
 for i in range(256):
     for j in range(256):
         ival[i][j] = (ival[i][j] / maxival) * 255
-        # print ival[i][j]
+        fp2.write(chr(int(ival[i][j])))
+        # print int(ival[i][j]),
