@@ -15,16 +15,15 @@ mr = 1
 # parse and load
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--input", required=True, help="Path to the image")
-# ap.add_argument("-i2", "--input2", required=True, help="Path to the image2")
 ap.add_argument("-tl", "--thresholdl", required=True, help="low threshold")
 ap.add_argument("-th", "--thresholdh", required=True, help="high threshold")
-# ap.add_argument("-o", "--output", required=False, help="Path to the output image")
+
 args = vars(ap.parse_args())
 fp1 = open(args["input"], "r")
 fp2 = open(args["input"]+'mag.pgm', "w")
 fp3 = open(args["input"]+'out1.pgm', "w")
 fp4 = open(args["input"]+'out2.pgm', "w")
-# fp3 = open(args["output"], "w")
+
 threshold = args["thresholdl"]
 threshold2 = args["thresholdh"]
 
