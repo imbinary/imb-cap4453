@@ -14,14 +14,19 @@ mr = 1
 
 # parse and load
 ap = argparse.ArgumentParser()
-ap.add_argument("-i1", "--input1", required=True, help="Path to the image")
+ap.add_argument("-i", "--input", required=True, help="Path to the image")
 # ap.add_argument("-i2", "--input2", required=True, help="Path to the image2")
-ap.add_argument("-t", "--threshold", required=True, help="threshold")
-ap.add_argument("-o", "--output", required=False, help="Path to the output image")
+ap.add_argument("-tl", "--thresholdl", required=True, help="low threshold")
+ap.add_argument("-th", "--thresholdh", required=True, help="high threshold")
+# ap.add_argument("-o", "--output", required=False, help="Path to the output image")
 args = vars(ap.parse_args())
-fp1 = open(args["input1"], "r")
-fp2 = open(args["output"], "w")
+fp1 = open(args["input"], "r")
+fp2 = open(args["input"]+'mag.pgm', "w")
+fp3 = open(args["input"]+'out1.pgm', "w")
+fp4 = open(args["input"]+'out2.pgm', "w")
 # fp3 = open(args["output"], "w")
+threshold = args["thresholdl"]
+threshold2 = args["thresholdh"]
 
 for i in range(256):
     for j in range(256):
@@ -43,8 +48,18 @@ for i in range(mr, 256-mr):
             maxival = ival[i][j]
 
 fp2.write('P5\n256 256\n255\n')  # pgm header
+fp3.write('P5\n256 256\n255\n')  # pgm header
+fp4.write('P5\n256 256\n255\n')  # pgm header
 for i in range(256):
     for j in range(256):
         ival[i][j] = (ival[i][j] / maxival) * 255
         fp2.write(chr(int(ival[i][j])))
+        if int(ival[i][j]) > int(threshold):
+            fp3.write(chr(255))
+        else:
+            fp3.write(chr(0))
+        if int(ival[i][j]) > int(threshold2):
+            fp4.write(chr(255))
+        else:
+            fp4.write(chr(0))
         # print int(ival[i][j]),
